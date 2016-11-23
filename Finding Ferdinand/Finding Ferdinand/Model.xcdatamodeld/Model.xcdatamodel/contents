@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10171" systemVersion="15D21" minimumToolsVersion="Xcode 7.0">
+    <entity name="Color" representedClassName="Color" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="percent" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="colorSet" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ColorSet" inverseName="colors" inverseEntity="ColorSet" syncable="YES"/>
+    </entity>
+    <entity name="ColorSet" representedClassName="ColorSet" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="note" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="colors" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Color" inverseName="colorSet" inverseEntity="Color" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Color" positionX="-54" positionY="0" width="128" height="90"/>
+        <element name="ColorSet" positionX="-63" positionY="-18" width="128" height="90"/>
+    </elements>
+</model>
