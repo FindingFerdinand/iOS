@@ -36,12 +36,14 @@ class TrendingDetailViewController: UIViewController {
     func loadImage() {
         loadingIndicator.startAnimating()
         loadingIndicator.isHidden = false
-        trend.fetchImage() { image, error in
+        
+        trend.fetchImage { (image, error) in
             self.loadingIndicator.stopAnimating()
             self.loadingIndicator.isHidden = true
             if let image = image {
                 self.imageView.image = image
             }
+            
         }
     }
 

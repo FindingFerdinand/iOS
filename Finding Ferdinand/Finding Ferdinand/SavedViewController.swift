@@ -15,9 +15,10 @@ class SavedViewController: UITableViewController, NSFetchedResultsControllerDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         do {
             try fetchedResultsController.performFetch()
-            if let cs = fetchedResultsController.fetchedObjects as? [ColorSet] {
+            if let cs = fetchedResultsController.fetchedObjects {
                 colorSets = cs
             }
         } catch {
@@ -27,14 +28,13 @@ class SavedViewController: UITableViewController, NSFetchedResultsControllerDele
         navigationItem.titleView = Tools.getNavImage()
         fetchedResultsController.delegate = self
     }
-
-    func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {
         case .insert:
-            if let cs = self.fetchedResultsController.objectAtIndexPath(newIndexPath!) as? ColorSet {
-                self.colorSets.insert(cs, atIndex: (newIndexPath?.item)!)
-                self.tableView.reloadData()
-            }
+            let cs = self.fetchedResultsController.object(at: newIndexPath! as IndexPath)
+            self.colorSets.insert(cs, at: (newIndexPath?.item)!)
+            self.tableView.reloadData()
         case .delete:
             self.colorSets.remove(at: (indexPath?.item)!)
             tableView.beginUpdates()
@@ -60,7 +60,7 @@ class SavedViewController: UITableViewController, NSFetchedResultsControllerDele
         return CoreDataStackManager.sharedInstance().managedObjectContext
     }
 
-    lazy var fetchedResultsController: NSFetchedResultsController = {
+    lazy var fetchedResultsController: NSFetchedResultsController<ColorSet> = {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "ColorSet")
         fetchRequest.sortDescriptors = []
         let fetchedResultsController = NSFetchedResultsController(
@@ -69,7 +69,7 @@ class SavedViewController: UITableViewController, NSFetchedResultsControllerDele
             sectionNameKeyPath: nil,
             cacheName: nil
         )
-        return fetchedResultsController
+        return fetchedResultsController as! NSFetchedResultsController<ColorSet>
     } ()
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
