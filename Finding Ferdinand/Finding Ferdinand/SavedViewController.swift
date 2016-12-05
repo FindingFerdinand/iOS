@@ -72,27 +72,42 @@ class SavedViewController: UITableViewController, NSFetchedResultsControllerDele
         return fetchedResultsController as! NSFetchedResultsController<ColorSet>
     } ()
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let cell = tableView.cellForRow(at: indexPath as IndexPath) as? SavedColorCell {
-            cell.toggleButtons(option: true)
-        }
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
     }
     
     
-    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        print("DeSelected")
-        if let cell = tableView.cellForRow(at: indexPath as IndexPath) as? SavedColorCell {
-            cell.toggleButtons(option: false)
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
         }
     }
+    
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let buyRowAction = UITableViewRowAction(style: .default, title: " Buy  ", handler:{action, indexpath in
+            if let cell = tableView.cellForRow(at: indexPath as IndexPath) as? SavedColorCell {
+                cell.buy()
+            }
+        })
+        buyRowAction.backgroundColor = UIColor(red: 0.298, green: 0.851, blue: 0.3922, alpha: 1.0);
+        
+        
+        let deleteRowAction = UITableViewRowAction(style: .default, title: "Delete", handler:{action, indexpath in
+            if let cell = tableView.cellForRow(at: indexPath as IndexPath) as? SavedColorCell {
+                tableView.setEditing(false, animated: true)
+                cell.delete()
+            }
+        })
+        return [deleteRowAction, buyRowAction]
+    }
+    
+    
+
 }
 
 class SavedColorCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var mixLabel: UILabel!
     @IBOutlet weak var mixView: UIView!
-    @IBOutlet weak var deleteButton: UIButton!
-    @IBOutlet weak var buyButton: UIButton!
     
     var set: ColorSet?
     
@@ -102,38 +117,16 @@ class SavedColorCell: UITableViewCell {
         mixLabel.text = colorSet.breakdown
         mixView.backgroundColor = colorSet.uiColor
         mixView.layer.cornerRadius = 45
-        toggleButtons(option: false)
     }
     
-    var shown = false
-    func toggleButtons(option: Bool) {
-        if option == true {
-            shown = !shown
-        } else { shown = false }
-        
-        deleteButton.isEnabled = shown
-        buyButton.isEnabled = shown
-        if (shown) {
-            Tools.fadeIn(deleteButton)
-            Tools.fadeIn(buyButton)
-        } else {
-            Tools.fadeOut(deleteButton)
-            Tools.fadeOut(buyButton)
-        }
-    }
-
-    @IBAction func onDelete(sender: AnyObject) {
+    func delete() {
         if let set = set {
             CoreDataStackManager.sharedInstance().managedObjectContext.delete(set)
             CoreDataStackManager.sharedInstance().saveContext()
-
         }
     }
 
-    @IBAction func onBuy(sender: AnyObject) {
-        //&quantity=1&properties%5BColor+1%5D=Creamy+Mauve+100%25&properties%5BColor+2%5D=Orange+Flare+100%25&properties%5BColor+3%5D=Classic+Coral+100%25&properties%5BColor+Name%5D=Test&properties%5BNotes%5D=123
-        
-        
+    func buy() {
         if let set = set {
             var hash = "id=12477972870&quantity=1&" + Tools.encode("properties[Color Name]") + "=" + Tools.encode(set.name)
             for color in set.colors {

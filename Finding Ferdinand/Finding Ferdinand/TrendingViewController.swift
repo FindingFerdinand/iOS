@@ -47,7 +47,6 @@ class TrendingViewController: UITableViewController {
                 let alert = UIAlertController(title: "No Connection", message: "There seems to be a problem with your connection.", preferredStyle: UIAlertControllerStyle.alert)
                 alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.default, handler: nil))
                 self.present(alert, animated: true, completion: nil)
-                
             }
         }
     }
