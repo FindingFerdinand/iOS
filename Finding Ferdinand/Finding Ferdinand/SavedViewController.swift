@@ -83,12 +83,13 @@ class SavedViewController: UITableViewController, NSFetchedResultsControllerDele
     }
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let buyRowAction = UITableViewRowAction(style: .default, title: " Buy  ", handler:{action, indexpath in
+        let buyRowAction = UITableViewRowAction(style: .default, title: "  Buy     ", handler:{action, indexpath in
             if let cell = tableView.cellForRow(at: indexPath as IndexPath) as? SavedColorCell {
-                cell.buy()
+                tableView.setEditing(false, animated: true)
+                self.alertAndBuy(cell: cell)
             }
         })
-        buyRowAction.backgroundColor = UIColor(red: 0.298, green: 0.851, blue: 0.3922, alpha: 1.0);
+        buyRowAction.backgroundColor = UIColor(red: 0.90, green: 0.71, blue: 0.65, alpha: 1.0);
         
         
         let deleteRowAction = UITableViewRowAction(style: .default, title: "Delete", handler:{action, indexpath in
@@ -97,11 +98,28 @@ class SavedViewController: UITableViewController, NSFetchedResultsControllerDele
                 cell.delete()
             }
         })
+        deleteRowAction.backgroundColor = UIColor(red: 0.65, green: 0.65, blue: 0.65, alpha: 1)
         return [deleteRowAction, buyRowAction]
     }
     
-    
-
+    func alertAndBuy(cell: SavedColorCell) {
+        let alert = UIAlertController(title: "Select A Finish", message: "Mini Lipstick $6", preferredStyle: UIAlertControllerStyle.actionSheet)
+        let creamy = UIAlertAction(title: "Creamy", style: UIAlertActionStyle.default) { _ in
+            cell.buy(finish: "Creamy")
+        }
+        let matte = UIAlertAction(title: "Matte", style: UIAlertActionStyle.default) { _ in
+            cell.buy(finish: "Matte")
+        }
+        let sheer = UIAlertAction(title: "Sheer", style: UIAlertActionStyle.default) { _ in
+            cell.buy(finish: "Sheer")
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil)
+        alert.addAction(creamy)
+        alert.addAction(matte)
+        alert.addAction(sheer)
+        alert.addAction(cancel)
+        self.present(alert, animated: true, completion: nil)
+    }
 }
 
 class SavedColorCell: UITableViewCell {
@@ -126,12 +144,16 @@ class SavedColorCell: UITableViewCell {
         }
     }
 
-    func buy() {
+    func buy(finish: String) {
         if let set = set {
-            var hash = "id=12477972870&quantity=1&" + Tools.encode("properties[Color Name]") + "=" + Tools.encode(set.name)
+            var hash = "id=18955579270&quantity=1&" + Tools.encode("properties[Color Name]") + "=" + Tools.encode(set.name)
+            var i = 1
             for color in set.colors {
-                hash = hash + "&" + Tools.encode("properties[\(color.name)]") + "=" + Tools.encode("\(color.percent)%")
+                hash = hash + "&" + Tools.encode("properties[Color \(i)]") + "=" + Tools.encode("\(color.name) \(color.percent)%")
+                i = i + 1
             }
+            hash = hash  + "&" + Tools.encode("properties[Finish]=\(finish)")
+            
             let url = "https://www.findingferdinand.com/pages/redirect#\(hash)"
             print(url)
             UIApplication.shared.openURL(URL(string: url)!)
