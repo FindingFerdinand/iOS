@@ -165,9 +165,9 @@
 				TargetAttributes = {
 					5E5822131D54C77A0095B1B9 = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = EA9QA9ZV6T;
+						DevelopmentTeam = K9NM86F2MM;
 						LastSwiftMigration = 0810;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -344,14 +344,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = EA9QA9ZV6T;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				DEVELOPMENT_TEAM = K9NM86F2MM;
 				INFOPLIST_FILE = "Finding Ferdinand/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.hamal.Finding-Ferdinand";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.findingferdinand.Finding-Ferdinand";
 				PRODUCT_NAME = Ferdinand;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "3d19168a-b412-46f8-80b8-f24d696ab698";
+				PROVISIONING_PROFILE_SPECIFIER = "Finding Ferdinand Custom Lipstick App";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -362,14 +363,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = EA9QA9ZV6T;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				DEVELOPMENT_TEAM = K9NM86F2MM;
 				INFOPLIST_FILE = "Finding Ferdinand/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.hamal.Finding-Ferdinand";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.findingferdinand.Finding-Ferdinand";
 				PRODUCT_NAME = Ferdinand;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "3d19168a-b412-46f8-80b8-f24d696ab698";
+				PROVISIONING_PROFILE_SPECIFIER = "Finding Ferdinand Custom Lipstick App";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

@@ -103,15 +103,15 @@ class SavedViewController: UITableViewController, NSFetchedResultsControllerDele
     }
     
     func alertAndBuy(cell: SavedColorCell) {
-        let alert = UIAlertController(title: "Select A Finish", message: "Mini Lipstick $6", preferredStyle: UIAlertControllerStyle.actionSheet)
+        let alert = UIAlertController(title: "Select A Finish", message: "", preferredStyle: UIAlertControllerStyle.actionSheet)
         let creamy = UIAlertAction(title: "Creamy", style: UIAlertActionStyle.default) { _ in
-            cell.buy(finish: "Creamy")
+            self.alertAndBuy2(cell: cell, finish: "Creamy")
         }
         let matte = UIAlertAction(title: "Matte", style: UIAlertActionStyle.default) { _ in
-            cell.buy(finish: "Matte")
+            self.alertAndBuy2(cell: cell, finish: "Matte")
         }
         let sheer = UIAlertAction(title: "Sheer", style: UIAlertActionStyle.default) { _ in
-            cell.buy(finish: "Sheer")
+            self.alertAndBuy2(cell: cell, finish: "Sheer")
         }
         let cancel = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil)
         alert.addAction(creamy)
@@ -119,6 +119,22 @@ class SavedViewController: UITableViewController, NSFetchedResultsControllerDele
         alert.addAction(sheer)
         alert.addAction(cancel)
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    func alertAndBuy2(cell: SavedColorCell, finish: String) {
+        let alert = UIAlertController(title: "Select A Size", message: "", preferredStyle: UIAlertControllerStyle.actionSheet)
+        let mini = UIAlertAction(title: "Mini Sample $6", style: UIAlertActionStyle.default) { _ in
+            cell.buy(finish: finish, productId: "34060882246")
+        }
+        let full = UIAlertAction(title: "Full Size $30", style: UIAlertActionStyle.default) { _ in
+            cell.buy(finish: finish, productId: (finish == "Sheer" ? "34060995334" : "34060941702"))
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil)
+        alert.addAction(mini)
+        alert.addAction(full)
+        alert.addAction(cancel)
+        self.present(alert, animated: true, completion: nil)
+
     }
 }
 
@@ -144,9 +160,9 @@ class SavedColorCell: UITableViewCell {
         }
     }
 
-    func buy(finish: String) {
+    func buy(finish: String, productId: String) {
         if let set = set {
-            var hash = "id=18955579270&quantity=1&" + Tools.encode("properties[Color Name]") + "=" + Tools.encode(set.name)
+            var hash = "id=\(productId)&quantity=1&" + Tools.encode("properties[Color Name]") + "=" + Tools.encode(set.name)
             var i = 1
             for color in set.colors {
                 hash = hash + "&" + Tools.encode("properties[Color \(i)]") + "=" + Tools.encode("\(color.name) \(color.percent)%")

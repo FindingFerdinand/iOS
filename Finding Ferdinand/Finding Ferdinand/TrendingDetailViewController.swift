@@ -62,5 +62,15 @@ class TrendingDetailViewController: UIViewController {
         }
         CoreDataStackManager.sharedInstance().saveContext()
         Tools.flashLabel(savedLabel)
+
+        let alert = UIAlertController(title: "SAVED!", message: "Select a creamy, matte, or sheer finish when you swipe to buy in the \"Your Colors\" tab.", preferredStyle: UIAlertControllerStyle.alert)
+        
+        let openColorTab = UIAlertAction(title: "Go to Colors", style: UIAlertActionStyle.default) { _ in
+            self.tabBarController?.selectedIndex = 1
+        }
+        
+        alert.addAction(UIAlertAction(title: "Close", style: UIAlertActionStyle.default, handler: nil))
+        alert.addAction(openColorTab)
+        self.present(alert, animated: true, completion: nil)
     }
 }
